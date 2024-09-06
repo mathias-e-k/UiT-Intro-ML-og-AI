@@ -1,3 +1,7 @@
+# zip files
+# These files are created when handing in multiple files for an assignment, they do not need to be kept
+*.zip
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
