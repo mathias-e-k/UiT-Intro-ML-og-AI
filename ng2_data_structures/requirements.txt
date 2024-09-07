@@ -1,0 +1,4 @@
+binarytree==6.5.1
+HeapDict==1.0.1
+pytest==8.3.2
+
