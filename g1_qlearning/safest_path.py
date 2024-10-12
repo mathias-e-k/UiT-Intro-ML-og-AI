@@ -16,15 +16,16 @@ if __name__ == "__main__":
     fps_clock = pygame.time.Clock()
 
     play_surface = pygame.display.set_mode((500, 500))
-    pygame.display.set_caption('Karaktersatt Oppgave 1 DTE2602')
-    simulator_speed = 20 # Adjust this value to change the speed of the visualiztion. Bigger number = more faster...
+    pygame.display.set_caption('Safest path')
+    simulator_speed = 10 # Adjust this value to change the speed of the visualiztion. Bigger number = more faster...
 
     bg_image = pygame.image.load("grid.jpg") # Loads the simplified grid image.
     #bg_image = pygame.image.load("map.jpg") # Uncomment this to load the terrain map image.
 
     robot = Robot() # Create a new robot.
     robot.reset_random()
-
+    epochs = robot.q_learning_converge()
+    print("Converged after", epochs, "epochs.")
     # Pygame boilerplate code.
     running = True
     while running:
@@ -57,11 +58,12 @@ if __name__ == "__main__":
                 game_font.render_to(play_surface, (col * 73 + 44, row * 73 + 69), str(round(left)), GREEN_COLOR if left == max(q_matrix[(row, col)]) else BLACK_COLOR)
                 game_font.render_to(play_surface, (col * 73 + 94, row * 73 + 69), str(round(right)), GREEN_COLOR if right == max(q_matrix[(row, col)]) else BLACK_COLOR)
 
-        # Calls related to Q-learning.
-        if robot.has_reached_goal():
-            robot.reset_random()
-        else:
-            robot.one_step_q_learning()
+        # Draw the safest path from start to goal
+        path, reward = robot.greedy_path()
+        for i in range(len(path) - 1):
+            start = path[i]
+            end = path[i + 1]
+            pygame.draw.line(play_surface, BLACK_COLOR, (start[1] * 73 + 69, start[0] * 73 + 69), (end[1] * 73 + 69, end[0] * 73 + 69), 2)
 
         # Refresh the screen.
         pygame.display.flip()

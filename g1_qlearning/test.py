@@ -1,8 +1,16 @@
+import time
+start_time = time.time()
+# print("--- %s seconds ---" % (time.time() - start_time))
 import robot
+sum = 0
 
-r1 = robot.Robot()
-print(r1.q_learning_converge())
-q = r1.get_q_matrix()
-for key in q:
-    print(key, q[key])
-print(r1.greedy_path())
+rounds = 200
+
+
+for i in range(rounds):
+    r1 = robot.Robot(alpha=1)
+    sum += r1.q_learning_converge()
+    print(i)
+print(sum / rounds)
+print("--- %s seconds ---" % ((time.time() - start_time) / rounds))
+
