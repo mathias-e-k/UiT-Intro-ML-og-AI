@@ -17,7 +17,7 @@ if __name__ == "__main__":
 
     play_surface = pygame.display.set_mode((500, 500))
     pygame.display.set_caption('Karaktersatt Oppgave 1 DTE2602')
-    simulator_speed = 20 # Adjust this value to change the speed of the visualiztion. Bigger number = more faster...
+    simulator_speed = 10 # Adjust this value to change the speed of the visualiztion. Bigger number = more faster...
 
     bg_image = pygame.image.load("grid.jpg") # Loads the simplified grid image.
     #bg_image = pygame.image.load("map.jpg") # Uncomment this to load the terrain map image.

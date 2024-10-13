@@ -38,11 +38,11 @@ class Robot:
         self.position = START_POSITION
         self.alpha = alpha # How much new information is valued (learning rate)
         self.gamma = gamma # How much future reward is valued (discount factor)
+
         self.q_matrix = {}
         for y in range(MAP_SIZE):
             for x in range(MAP_SIZE):
                 self.q_matrix[(y, x)] = [0] * 4 # For every square on the map, the robot has 4 choices
-        
         
     def get_x(self) -> int:
         """Return the current column of the robot. In the range 0-5."""
@@ -149,12 +149,12 @@ class Robot:
         """Perform one step of q-learning."""
         direction = self._get_direction_policy_based()
         next_position = self._get_next_state(direction)
-        y, x = next_position
         # If the robot tries to go out of bounds, next_position will be equal to current position.
         if self.position == next_position: 
             # There is a negative reward for going out of bounds to discourage the robot from trying to leave the map.
             reward = self.OOB_REWARD
         else:
+            y, x = next_position
             reward = self.REWARD[y][x]
         self.q_matrix[self.position][direction] = (1 - self.alpha) * self.q_matrix[self.position][direction]\
               + self.alpha * (reward + self.gamma * max(self.q_matrix[next_position]))
