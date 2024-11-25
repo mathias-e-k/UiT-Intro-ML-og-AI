@@ -281,7 +281,7 @@ class Perceptron:
             1 for positive classification, 0 for negative classification.
         """
         x = np.append(x, 1)
-        I = self.weights * x
+        I = sum(self.weights * x)
         y = 1 if I >= 0 else 0
         return y
 
@@ -502,7 +502,7 @@ class DecisionTree:
 
 def run_decision_tree(X, y):
     """Example of using decision tree"""
-    train_set, test_set = train_test_split(X, y, 0.7)
+    train_set, test_set = train_test_split(X, y, 1)
     X_train, y_train = train_set
     dTree = DecisionTree()
     dTree.fit(X_train, y_train)
@@ -516,7 +516,7 @@ def run_perceptron(X, y, y_value_true, features=[True, True, True, True]):
     """Example of using perceptron"""
     X = X[:, features]
     y = convert_y_to_binary(y, y_value_true)
-    train_set, test_set = train_test_split(X, y, 0.5)
+    train_set, test_set = train_test_split(X, y, 0.95)
     X_train, y_train = train_set
     perceptron1 = Perceptron(features=X.shape[1])
     perceptron1.train(X_train, y_train)
@@ -526,9 +526,10 @@ def run_perceptron(X, y, y_value_true, features=[True, True, True, True]):
     acc = accuracy(y_pred, y_test)
     print(round(acc * len(y_test)), "/", len(y_test), f"    {round(acc*100, 3)}%")
     print("Perceptron weigths:", perceptron1.weights)
+    # Draw plot
     if X.shape[1] == 2:
         slope, intercept = perceptron1.decision_boundary_slope_intercept()
-        draw_plot(X_test, y_test, slope=slope, intercept=intercept)
+        draw_plot(X, y, slope=slope, intercept=intercept)
     else:
         draw_plot(X_test, y_test)
 
@@ -593,15 +594,14 @@ if __name__ == "__main__":
 
     X, y = read_data()
 
-
-    # run_perceptron(X, y, 2, features=[False, False, True, True])
-    run_decision_tree(X, y)
+    # run_perceptron(X, y, 2, features=[False, True, False, True])
+    # run_decision_tree(X, y)
 
     # Experiments:
     # ex.perceptron1(X, y)
     # ex.perceptron2(X, y)
     # ex.decision_tree1(X, y)
     # ex.decision_tree2(X, y)
-    # ex.decision_tree3(X, y)
+    ex.decision_tree3(X, y)
 
     
